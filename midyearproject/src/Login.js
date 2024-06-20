@@ -8,41 +8,42 @@ import axios from 'axios';
 const Login = () => {
     const [email, SetEmail] = useState('');
     const [password, SetPassword] = useState('');
+    const [loginError, setLoginError] = useState(null);
 
     const history = useHistory();
 
-    async function Submit(e) {
+    const login = (e) => {
         e.preventDefault();
 
-        try {
+        const user = { email: email.toLowerCase(), password };
 
-            await axios.post ('http://localhost:3000/login', {
-                email,
-                password
-        })
-        .then(res=>{
-            if(res.data = "exist"){
-                history.push('/Homepage')
+        axios.post("http://localhost:3000/", {
+            email: user.email,
+            password: user.password,
+        }).then((response) => {
+            if (response.data.message === "Login Successful") {
+                history.push("/Homepage");
+            } else {
+                console.log(response.data.message);
+                setLoginError(response.data.message);
             }
-
-        })
-    } 
-        catch (e) {
-            console.log(e)
-        }
+        }).catch((error) => {
+            console.error("There was an error logging in!", error);
+        });
     }
 
     return (
         <div className="fullscreen-container">
             <div className="login-container">
                 <h1>Login</h1>
-                <form onSubmit={Submit}>
+                <form onSubmit={login}>
                     <div>
                         <input
                             type="text"
                             placeholder="Email"
                             value={email}
                             onChange={(e)=> SetEmail(e.target.value)}
+                            required
                         />
                     </div>
                     <div>
@@ -51,9 +52,11 @@ const Login = () => {
                             placeholder="Password"
                             value={password}
                             onChange={(e)=> SetPassword(e.target.value)}
+                            required
                         />
                     </div>
                     <button type="submit">Login</button>
+                    {loginError && <p className="error-message">{loginError}</p>}
                     <div className="create-acc">
                         <p>Don't have an account yet? <Link to='/SignUp'>Create one</Link></p>
                     </div>

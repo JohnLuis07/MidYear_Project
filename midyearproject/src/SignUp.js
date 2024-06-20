@@ -22,7 +22,7 @@ const SignUp = () => {
 
         if (password === confirmpassword) {
             setPasswordMatch(true);
-            const user = { fullname, username, email, password };
+            const user = { fullname, username, email: email.toLowerCase(), password };
 
             Axios.post("http://localhost:3000/signup", {
                 fullname: user.fullname,
@@ -34,7 +34,6 @@ const SignUp = () => {
                     setAccountCreated("Email already exists");
                 } else if (response.data.message === "User created successfully.") {
                     setAccountCreated("User created successfully.");
-                    window.location.reload();
                 }
             }).catch((error) => {
                 console.error("There was an error creating the account!", error);
@@ -59,6 +58,7 @@ const SignUp = () => {
                                 placeholder="Full Name"
                                 value={fullname}
                                 onChange={(e) => setFullname(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
@@ -67,6 +67,7 @@ const SignUp = () => {
                                 placeholder="Username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
@@ -75,6 +76,7 @@ const SignUp = () => {
                                 placeholder="E-mail"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
@@ -83,6 +85,7 @@ const SignUp = () => {
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
@@ -91,11 +94,12 @@ const SignUp = () => {
                                 placeholder="Confirm Password"
                                 value={confirmpassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
                             />
                         </div>
-                        {!passwordMatch && <p className="error-message">Passwords do not match!</p>}
                         <button type="submit">Register</button>
                     </form>
+                    {!passwordMatch && <p className="error-message">Passwords do not match!</p>}
                     {accountCreated && (
                         <p className={accountCreated === "Email already exists" ? "error-message" : "accountcreated"}>
                             {accountCreated}

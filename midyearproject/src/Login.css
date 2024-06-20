@@ -110,3 +110,9 @@
     text-align: center; /* Center align the text */
     margin-bottom: 20px; /* Adjust as needed */
 }
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}

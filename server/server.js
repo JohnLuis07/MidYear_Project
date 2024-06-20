@@ -38,11 +38,14 @@ app.post("/", async (req, res) => {
 
     try {
         const check = await user.findOne({ email: email });
-
         if (check) {
-            return res.status(200).json({ message: "Email already exists" });
+            if (check.password === password) {
+                return res.status(200).json({ message: "Login Successful" });
+            } else {
+                return res.status(200).json({ message: "Invalid Password" });
+            }
         } else {
-            return res.status(200).json({ message: "Email not exists" });
+            return res.status(200).json({ message: "User not found!" });
         }
     } catch (e) {
         console.log(e);
