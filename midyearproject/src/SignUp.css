@@ -1,0 +1,122 @@
+.fullscreen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('./img/Login_bg.jpg'); /* Maintain the background image for the fullscreen container */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.SignUp-Container {
+  display: flex;
+  background: linear-gradient(135deg, #ffffff 0%, #fad0c4 100%); /* Same gradient background as the image */
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 900px; /* Slightly increase container width */
+  width: 85%;
+  box-sizing: border-box;
+  overflow: hidden;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.left-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.signup-logo {
+  max-width: 100%; /* Make logo fill the left side */
+  height: auto;
+  border-radius: 10px;
+}
+
+.right-side {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-side h1 {
+  margin-bottom: 20px;
+  font-size: 28px; /* Increase font size */
+  color: #333;
+}
+
+.right-side form {
+  width: 100%; /* Ensure the form takes full width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right-side form div {
+  margin-bottom: 15px;
+  width: 80%; /* Ensure the input container takes full width */
+}
+
+.right-side input {
+  width: 100%; /* Ensure inputs take full width */
+  padding: 12px; /* Increase padding */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.right-side input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.right-side button {
+  width: 80%; /* Increase button width */
+  padding: 15px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 18px; /* Increase font size */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.right-side button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+
+
+.right-side .login-link a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.right-side .login-link a:hover {
+  color: #0056b3;
+}

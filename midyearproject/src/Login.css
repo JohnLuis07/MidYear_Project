@@ -1,0 +1,53 @@
+/* Login-InfoContainer */
+
+.fullscreen-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('./img/Login_bg.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+.login-container{
+    margin-top: 9rem;
+    padding: 30px;
+    height: 60vh;
+    width: 20vw;
+    margin-left: 15rem;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 50vh;
+    background-color: aqua;
+    border-radius: 15px;
+}
+
+.login-container h1{
+    font-size: 2rem;
+    margin-bottom: 15rem;
+    position: absolute;
+}
+
+.login-container button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+.login-container button[type="submit"]:hover {
+    opacity: 1;
+}
+
+
+
+
+
+
+
