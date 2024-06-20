@@ -34,6 +34,7 @@ const SignUp = () => {
                     setAccountCreated("Email already exists");
                 } else if (response.data.message === "User created successfully.") {
                     setAccountCreated("User created successfully.");
+                    window.location.reload();
                 }
             }).catch((error) => {
                 console.error("There was an error creating the account!", error);
@@ -92,10 +93,14 @@ const SignUp = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
-                        {!passwordMatch && <p>Passwords do not match!</p>}
+                        {!passwordMatch && <p className="error-message">Passwords do not match!</p>}
                         <button type="submit">Register</button>
                     </form>
-                    {accountCreated && <p>{accountCreated}</p>}
+                    {accountCreated && (
+                        <p className={accountCreated === "Email already exists" ? "error-message" : "accountcreated"}>
+                            {accountCreated}
+                        </p>
+                    )}
                     <div className="login-link">
                         Already a member? <Link to="/">Log in</Link>
                     </div>
