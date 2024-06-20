@@ -54,7 +54,7 @@ const SignUp = () => {
                 <div className="right-side">
                     <h1>Sign up</h1>
                     <form onSubmit={signUp}>
-                        <div>
+                        <div> 
                             <input
                                 type="text" 
                                 placeholder="Full Name"
