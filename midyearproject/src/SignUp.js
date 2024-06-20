@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Axios from 'axios';
 import "./index.css"; // Ensure this import includes the custom CSS
 import logo from "./img/scholarflow_logo.png";
 import "./SignUp.css";
@@ -19,32 +20,29 @@ const SignUp = () => {
     const signUp = (e) => {
         e.preventDefault();
 
-        if (Password === confirmpassword) {
-          setPasswordMatch(true); // Passwords match, set to false
-          const user = { fullname ,username, email, password };
-          console.log(user.userEmail, user.userName);
-          setAccountCreated(true); 
-    
-          Axios.post("http://localhost:3001/signup", {
-            fullname: user.fullname, 
-            username: user.username,
-            email: user.email,
-            password: user.userpassword,
-          }).then((response) => {
-            if (response.data.message === "Email already exists") {
-              // Display an error message that the email already exists
-              setAccountCreated("Email already exists");
-            } else if (response.data.message === "User created successfully.") {
-              // Registration was successful
-              setAccountCreated("User created successfully.");
-            }
-          });
+        if (password === confirmpassword) {
+            setPasswordMatch(true);
+            const user = { fullname, username, email, password };
+
+            Axios.post("http://localhost:3000/signup", {
+                fullname: user.fullname,
+                username: user.username,
+                email: user.email,
+                password: user.password,
+            }).then((response) => {
+                if (response.data.message === "Email already exists") {
+                    setAccountCreated("Email already exists");
+                } else if (response.data.message === "User created successfully.") {
+                    setAccountCreated("User created successfully.");
+                }
+            }).catch((error) => {
+                console.error("There was an error creating the account!", error);
+            });
         } else {
-            setPasswordMatch(false); // Passwords don't match, set to true
+            setPasswordMatch(false);
         }
-    
     }
- 
+
     return (
         <div className="fullscreen-container">
             <div className="SignUp-Container">
@@ -54,17 +52,17 @@ const SignUp = () => {
                 <div className="right-side">
                     <h1>Sign up</h1>
                     <form onSubmit={signUp}>
-                        <div> 
+                        <div>
                             <input
-                                type="text" 
+                                type="text"
                                 placeholder="Full Name"
                                 value={fullname}
                                 onChange={(e) => setFullname(e.target.value)}
-                            /> 
+                            />
                         </div>
                         <div>
                             <input
-                                type="text" 
+                                type="text"
                                 placeholder="Username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
@@ -79,7 +77,7 @@ const SignUp = () => {
                             />
                         </div>
                         <div>
-                            <input 
+                            <input
                                 type="password"
                                 placeholder="Password"
                                 value={password}
@@ -87,7 +85,7 @@ const SignUp = () => {
                             />
                         </div>
                         <div>
-                            <input 
+                            <input
                                 type="password"
                                 placeholder="Confirm Password"
                                 value={confirmpassword}
@@ -97,6 +95,7 @@ const SignUp = () => {
                         {!passwordMatch && <p>Passwords do not match!</p>}
                         <button type="submit">Register</button>
                     </form>
+                    {accountCreated && <p>{accountCreated}</p>}
                     <div className="login-link">
                         Already a member? <Link to="/">Log in</Link>
                     </div>
@@ -105,5 +104,5 @@ const SignUp = () => {
         </div>
     );
 };
- 
+
 export default SignUp;

@@ -1,10 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
-const corse = require('cors');
 
-
-mongoose.connect('mongodb://localhost:27017/ScholarFlow')
+mongoose.connect('mongodb://127.0.0.1:27017/ScholarFlow', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("Could not connect to MongoDB", err));
 
 const newSchema = new mongoose.Schema({
     fullname: {
@@ -25,69 +28,53 @@ const newSchema = new mongoose.Schema({
     }
 });
 
-const collection = mongoose.model("collection", newSchema);
+const user = mongoose.model("users", newSchema);
 
-module.exports = collection;
+app.use(cors());
+app.use(express.json());
 
-app.get("/", corse(), (req, res)=>{
+app.post("/", async (req, res) => {
+    const { email, password } = req.body;
 
-})
-
-app.post("/", async(req, res)=>{
-    const{email, password} = req.body;
-
-    try{
-        const check = await collection.findOne({email:email})
+    try {
+        const check = await user.findOne({ email: email });
 
         if (check) {
-            return res.status(201).json({ message: "Email already exists" });
+            return res.status(200).json({ message: "Email already exists" });
         } else {
-            return res.status(201).json({ message: "Email not exists" });
+            return res.status(200).json({ message: "Email not exists" });
         }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Internal server error" });
     }
-    catch (e) {
-        console.log(e)
-        res.json("not exist")
-    }
-    
-})
+});
 
-app.post("/SignUp", async(req, res)=>{
-    const{username, fullname, email, password} = req.body;
+app.post("/signup", async (req, res) => {
+    const { username, fullname, email, password } = req.body;
 
     const data = {
         username: username,
         fullname: fullname,
         email: email,
         password: password
-    }
+    };
 
-    try{
-        const check = await collection.findOne({email:email})
+    try {
+        const check = await user.findOne({ email: email });
 
         if (check) {
-            res.json("exist")
+            res.status(200).json({ message: "Email already exists" });
         } else {
-            res.json("not exist")
-            await collection.insertMany([data])
+            await user.insertMany([data]);
+            res.status(201).json({ message: "User created successfully." });
         }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "Internal server error" });
     }
-    catch (e) {
-        console.log(e)
-        res.json("not exist")
-    }
-    
-})
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
-
-// app.get("/getusers", (req, res) => {
-//     res.json(UserModel.find({}).then(function(users){
-//         res.json(users);
-//     })).catch(function(err){
-//         console.log(err)
-//     })
-// });
-
