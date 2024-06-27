@@ -4,6 +4,7 @@ import "./index.css";
 import Login from "./Login.js";
 import SignUp from "./SignUp.js";
 import Homepage from "./Homepage.js";
+import Profile from "./Profile.js";
 import logo from './logo.svg';
 import './App.css';
 
@@ -24,6 +25,9 @@ function App() {
         </Route>
         <Route path="/Homepage">
           <Homepage />
+        </Route>
+        <Route exact path="/Profile">
+          <Profile />
         </Route>
       </Switch>
     </Router>

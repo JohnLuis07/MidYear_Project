@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import "./index.css"; // Ensure this import includes the custom CSS
+import "./index.css";
 import logo from "./img/scholarflow_logo.png";
 import "./Login.css";
 import axios from 'axios';
 
 const Login = () => {
-    const [email, SetEmail] = useState('');
-    const [password, SetPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState(null);
 
     const history = useHistory();
@@ -22,7 +22,10 @@ const Login = () => {
             password: user.password,
         }).then((response) => {
             if (response.data.message === "Login Successful") {
-                history.push("/Homepage");
+                localStorage.setItem('userEmail', user.email); // Store email in local storage
+                history.push({
+                    pathname: "/Homepage"
+                });
             } else {
                 console.log(response.data.message);
                 setLoginError(response.data.message);
@@ -42,7 +45,7 @@ const Login = () => {
                             type="text"
                             placeholder="Email"
                             value={email}
-                            onChange={(e)=> SetEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
@@ -51,7 +54,7 @@ const Login = () => {
                             type="password"
                             placeholder="Password"
                             value={password}
-                            onChange={(e)=> SetPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                     </div>
@@ -66,4 +69,4 @@ const Login = () => {
     );
 };
 
-export default Login
+export default Login;
