@@ -10,7 +10,7 @@ function Profile() {
     if (userEmail) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`http://localhost:3001/profile?email=${userEmail}`);
+          const response = await axios.get(`http://localhost:3000/profile?email=${userEmail}`);
           setUser(response.data);
         } catch (error) {
           console.error('Error fetching user data:', error);
