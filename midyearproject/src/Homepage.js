@@ -1,49 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { useLocation, Link } from 'react-router-dom';
-
-function AttendanceCard({ date, record, onUpdateRecord }) {
-  const [isCheckedIn, setIsCheckedIn] = useState(record.isCheckedIn);
-  const [checkInTime, setCheckInTime] = useState(record.checkInTime ? moment(record.checkInTime) : null);
-  const [checkOutTime, setCheckOutTime] = useState(record.checkOutTime ? moment(record.checkOutTime) : null);
-
-  const handleCheckIn = () => {
-    const checkInMoment = moment();
-    setIsCheckedIn(true);
-    setCheckInTime(checkInMoment);
-    onUpdateRecord(date, { isCheckedIn: true, checkInTime: checkInMoment, checkOutTime: null });
-  };
-
-  const handleCheckOut = () => {
-    const checkOutMoment = moment();
-    setCheckOutTime(checkOutMoment);
-    onUpdateRecord(date, { ...record, checkOutTime: checkOutMoment });
-  };
-
-  const calculateDuration = () => {
-    if (checkOutTime && checkInTime) {
-      const duration = moment.duration(checkOutTime.diff(checkInTime));
-      return duration.asHours().toFixed(2);
-    }
-    return 'N/A';
-  };
-
-  return (
-    <div className="attendance-card">
-      <p>Date: {date.format('YYYY-MM-DD')}</p>
-      {isCheckedIn ? (
-        <>
-          <p>Check-In: {checkInTime.format('HH:mm')}</p>
-          {!checkOutTime && <button onClick={handleCheckOut}>Check Out</button>}
-        </>
-      ) : (
-        <button onClick={handleCheckIn}>Check In</button>
-      )}
-      {checkOutTime && <p>Check-Out: {checkOutTime.format('HH:mm')}</p>}
-      <p>Duration: {calculateDuration()} hours</p>
-    </div>
-  );
-}
+import './AttendanceList.css'; // Import the CSS file
 
 function AttendanceList() {
   const [attendanceRecords, setAttendanceRecords] = useState({});
@@ -66,18 +24,62 @@ function AttendanceList() {
     }));
   };
 
-  const dates = [moment(), moment().subtract(1, 'days'), moment().subtract(2, 'days')];
+  const dates = [
+    moment(),
+    moment().subtract(1, 'days'),
+    moment().subtract(2, 'days'),
+    moment().subtract(3, 'days'),
+    moment().subtract(4, 'days'),
+    moment().subtract(5, 'days'),
+    moment().subtract(6, 'days'),
+    moment().subtract(7, 'days'),
+    moment().subtract(8, 'days'),
+    moment().subtract(9, 'days'),
+  ];
 
   return (
-    <div className="attendance-list">
-      {dates.map((date) => (
-        <AttendanceCard
-          key={date.format('YYYY-MM-DD')}
-          date={date}
-          record={attendanceRecords[date.format('YYYY-MM-DD')] || {}}
-          onUpdateRecord={handleUpdateRecord}
-        />
-      ))}
+    <div className="attendance-container">
+      <table className="attendance-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>Lunch Start</th>
+            <th>Lunch End</th>
+            <th>End Time</th>
+            <th>Overtime</th>
+            <th>Hourly Rate (USD)</th>
+            <th>Total Hours Worked (h)</th>
+            <th>Amount Earned</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dates.map((date) => {
+            const record = attendanceRecords[date.format('YYYY-MM-DD')] || {};
+            const startTime = record.checkInTime ? moment(record.checkInTime).format('HH:mm') : 'N/A';
+            const endTime = record.checkOutTime ? moment(record.checkOutTime).format('HH:mm') : 'N/A';
+            const duration = record.checkOutTime && record.checkInTime ? moment.duration(moment(record.checkOutTime).diff(moment(record.checkInTime))).asHours().toFixed(2) : 'N/A';
+            const hourlyRate = 50;
+            const overtime = record.overtime || 0;
+            const totalHoursWorked = duration !== 'N/A' ? parseFloat(duration) + overtime : 'N/A';
+            const amountEarned = totalHoursWorked !== 'N/A' ? totalHoursWorked * hourlyRate : 'N/A';
+
+            return (
+              <tr key={date.format('YYYY-MM-DD')}>
+                <td>{date.format('YYYY-MM-DD')}</td>
+                <td>{startTime}</td>
+                <td>1:00pm</td>
+                <td>1:30pm</td>
+                <td>{endTime}</td>
+                <td>{overtime}</td>
+                <td>{hourlyRate}</td>
+                <td>{totalHoursWorked}</td>
+                <td>{amountEarned}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -88,10 +90,10 @@ function App() {
   return (
     <div className="App">
       <h1>Daily Time Tracker</h1>
-        <div className="ButProfile">
-          <Link to={`/profile?email=${userEmail}`}>Go to Profile</Link>
-        </div>
-        <AttendanceList />
+      <div className="ButProfile">
+        <Link to={`/profile?email=${userEmail}`}>Go to Profile</Link>
+      </div>
+      <AttendanceList />
     </div>
   );
 }

@@ -14,6 +14,8 @@ const SignUp = () => {
     const [confirmpassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [accountCreated, setAccountCreated] = useState(null);
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
 
     const history = useHistory();
 
@@ -81,6 +83,22 @@ const SignUp = () => {
                         </div>
                         <div>
                             <input
+                                type="tel"
+                                placeholder="Phone Number"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="address"
+                                placeholder="Address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <input
                                 type="password"
                                 placeholder="Password"
                                 value={password}
@@ -97,6 +115,7 @@ const SignUp = () => {
                                 required
                             />
                         </div>
+
                         <button type="submit">Register</button>
                     </form>
                     {!passwordMatch && <p className="error-message">Passwords do not match!</p>}
