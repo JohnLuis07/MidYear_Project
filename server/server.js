@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+const path = require('path');
 
 mongoose.connect('mongodb://127.0.0.1:27017/ScholarFlow', {
     useNewUrlParser: true,
@@ -26,6 +27,7 @@ const newSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+    
 });
 
 const user = mongoose.model("users", newSchema);
@@ -94,6 +96,12 @@ app.get('/profile', async (req, res) => {
     }
 });
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { useLocation, Link } from 'react-router-dom';
-import './AttendanceList.css'; // Import the CSS file
+import { Link } from 'react-router-dom';
+import './Homepage.css'; // Import the CSS file
 
 function AttendanceList() {
   const [attendanceRecords, setAttendanceRecords] = useState({});
@@ -24,18 +24,7 @@ function AttendanceList() {
     }));
   };
 
-  const dates = [
-    moment(),
-    moment().subtract(1, 'days'),
-    moment().subtract(2, 'days'),
-    moment().subtract(3, 'days'),
-    moment().subtract(4, 'days'),
-    moment().subtract(5, 'days'),
-    moment().subtract(6, 'days'),
-    moment().subtract(7, 'days'),
-    moment().subtract(8, 'days'),
-    moment().subtract(9, 'days'),
-  ];
+  const dates = Array.from({ length: 10 }, (_, i) => moment().subtract(i, 'days'));
 
   return (
     <div className="attendance-container">
@@ -62,7 +51,7 @@ function AttendanceList() {
             const hourlyRate = 50;
             const overtime = record.overtime || 0;
             const totalHoursWorked = duration !== 'N/A' ? parseFloat(duration) + overtime : 'N/A';
-            const amountEarned = totalHoursWorked !== 'N/A' ? totalHoursWorked * hourlyRate : 'N/A';
+            const amountEarned = totalHoursWorked !== 'N/A' ? (totalHoursWorked * hourlyRate).toFixed(2) : 'N/A';
 
             return (
               <tr key={date.format('YYYY-MM-DD')}>
@@ -89,7 +78,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Daily Time Tracker</h1>
+      <h1 className='Homeh1'>Daily Time Tracker</h1>
       <div className="ButProfile">
         <Link to={`/profile?email=${userEmail}`}>Go to Profile</Link>
       </div>

@@ -1,0 +1,63 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.App {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    margin-top: 200px;
+}
+
+.ButProfile {
+    margin: 20px 0;
+}
+
+.attendance-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 45px;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.attendance-table th {
+    background-color: #f4f4f4;
+}
+
+.attendance-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.attendance-table th:first-child,
+.attendance-table td:first-child {
+    text-align: center;
+}
+
+Homeh1 {
+    margin-top: 200px
+}
